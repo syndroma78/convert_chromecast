@@ -115,7 +115,7 @@ echo "Your FFMpeg is OK Entering File Processing"
 
 ################################################################
 cd "$sourcedir"
-for filelist in `ls`
+for filelist in `ls *.mkv`
 do
 	if ffmpeg -i $filelist 2>&1 | grep 'Invalid data found'		#check if it's video file
 	   then
