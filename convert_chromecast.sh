@@ -95,12 +95,12 @@ if ffmpeg -formats 2> /dev/null | grep "E matroska" > /dev/null
          exit
 fi
 
-if ffmpeg -codecs 2> /dev/null | grep "libfdk_aac" > /dev/null
-        then
-         echo "Check AAC Audio Encoder ... OK"
-        else
-         echo "Check AAC Audio Encoder ... NOK"
-         exit
+#if ffmpeg -codecs 2> /dev/null | grep "libfdk_aac" > /dev/null
+#        then
+#         echo "Check AAC Audio Encoder ... OK"
+#        else
+#         echo "Check AAC Audio Encoder ... NOK"
+#         exit
 fi
 
 if ffmpeg -codecs 2> /dev/null | grep "libx264" > /dev/null
