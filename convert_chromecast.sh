@@ -101,7 +101,7 @@ fi
 #        else
 #         echo "Check AAC Audio Encoder ... NOK"
 #         exit
-fi
+#fi
 
 if ffmpeg -codecs 2> /dev/null | grep "libx264" > /dev/null
         then
