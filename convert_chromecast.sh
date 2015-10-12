@@ -136,24 +136,25 @@ do
 	    vcodec=libx264
 	fi
 
-	if [ ffmpeg -i $filelist 2>&1 | grep Audio: | grep aac ] || [ 	ffmpeg -i $filelist 2>&1 | grep Audio: | grep mp3 ]	#check audio codec
-	   then
-	    acodec=copy
-	   else
-	    acodec=libfdk_aac
-	fi
+	#if [ ffmpeg -i $filelist 2>&1 | grep Audio: | grep aac ] || [ 	ffmpeg -i $filelist 2>&1 | grep Audio: | grep mp3 ]	#check audio codec
+	#   then
+	#    acodec=copy
+	#   else
+	#    acodec=libfdk_aac
+	#fi
 
-        echo "Converting $filelist"
+	echo "Converting $filelist"
 	echo "Video codec: $vcodec Audio codec: $acodec Container: $outformat"
+
+  echo "#######################################################################"
+	echo "ffmpeg -i $filelist -c:v libx264 -profile:v high -level 4.2 -crf 18 -maxrate 10M -bufsize 16M -pix_fmt yuv420p -vf "scale=iw*sar:ih, scale='if(gt(iw,ih),min(1920,iw),-1)':'if(gt(iw,ih),-1,min(1080,ih))'" -x264opts bframes=3:cabac=1 -movflags faststart -c:a libfaac -b:a 320k -ac 2 -y $indir/castable/$filelist.$outmode"
+	echo "#######################################################################"
 
 # using ffmpeg for real converting
 	#echo "ffmpeg -i $filelist -y -f $outformat -acodec $acodec -ab 192k -ac 2 -absf aac_adtstoasc -async 1 -vcodec $vcodec -vsync 0 -profile:v main -level 3.1 -qmax 22 -qmin 20 -x264opts no-cabac:ref=2 -threads 0 $indir/castable/$filelist.$outmode"
 	#ffmpeg -i $filelist -y -f $outformat -acodec $acodec -ab 192k -ac 2 -absf aac_adtstoasc -async 1 -vcodec $vcodec -vsync 0 -profile:v main -level 3.1 -qmax 22 -qmin 20 -x264opts no-cabac:ref=2 -threads 0 $indir/castable/$filelist.$outmode
 
-	#todo: -ac 2 == stereo channels;
-
-	echo "ffmpeg -i $filelist -y -f $outformat -acodec $acodec -ab 192k -ac 2 -absf aac_adtstoasc -async 1 -vcodec $vcodec -vsync 0 -profile:v high -level 4.1 -qmax 22 -qmin 20 -x264opts no-cabac:ref=2 -threads 0 $indir/castable/$filelist.$outmode"
-	ffmpeg -i $filelist -y -f $outformat -acodec $acodec -ab 192k -ac 2 -absf aac_adtstoasc -async 1 -vcodec $vcodec -vsync 0 -profile:v high -level 4.1 -qmax 22 -qmin 20 -x264opts no-cabac:ref=2 -threads 0 -maxrate 10M -bufsize 16M -movflags faststart $indir/castable/$filelist.$outmode
+	ffmpeg -i $filelist -c:v libx264 -profile:v high -level 4.2 -crf 18 -maxrate 10M -bufsize 16M -pix_fmt yuv420p -vf "scale=iw*sar:ih, scale='if(gt(iw,ih),min(1920,iw),-1)':'if(gt(iw,ih),-1,min(1080,ih))'" -x264opts bframes=3:cabac=1 -movflags faststart -c:a libfaac -b:a 320k -ac 2 -y $indir/castable/$filelist.$outmode
 
 done
 	echo ALL Processed!
